@@ -9,14 +9,13 @@
 */
 
 
-#
 #include "stm32f10x.h"
 
 #define WAIT_TIME 9000000
-#define VALUE 1.43
+#define V25 1.43
 #define AVG_SLOPE 4.3
-uint16_t temp =0;
-float data = 0;
+uint16_t temperature = 0;
+float ADC_value = 0;
 
 int main(void)
 {
@@ -57,10 +56,11 @@ int main(void)
 	while(1){
 		if(ADC1->SR & ADC_SR_EOC){
 			ADC1->SR &= ~ADC_SR_EOC;
-			temp = ADC1->DR;
+			ADC_value = ADC1->DR;
 			//convert to actual temperature
-			float value2 = (temp/4095)*3.3;
-			data = ((VALUE-value2)/AVG_SLOPE)+25;
+			float VSENSE = (ADC_value/4095)*3.3;
+			temperature = ((V25-VSENSE)/AVG_SLOPE)+25;
+			//Start next conversion
 			ADC1->CR2 |= ADC_CR2_SWSTART;
 
 		}

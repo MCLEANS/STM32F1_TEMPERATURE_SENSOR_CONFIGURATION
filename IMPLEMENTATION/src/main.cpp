@@ -64,7 +64,5 @@ int main(void)
 			ADC1->CR2 |= ADC_CR2_SWSTART;
 
 		}
-
-		for(int i=0; i<WAIT_TIME;i++){};
 	}
 }
